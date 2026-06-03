@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "highlight.js/styles/github-dark.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+pre code.hljs {
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.code-editor pre {
+  scrollbar-width: none;
+  padding: 1rem;
+  background: #18181b;
+  border-radius: 0.5rem;
+}
+.code-editor pre::-webkit-scrollbar {
+  display: none;
+}
+.code-editor pre code.hljs {
+  padding: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  margin: 0;
+}
+.code-editor textarea {
+  padding: 1rem;
+}

@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f7f8fa;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.page-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+}
+
+.van-tabbar {
+  flex-shrink: 0;
+}
+
+.amount-expense {
+  color: #ee0a24;
+  font-weight: 600;
+}
+
+.amount-income {
+  color: #07c160;
+  font-weight: 600;
+}
+
+.budget-warning {
+  color: #ee0a24;
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.summary-card {
+  margin: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.chart-container {
+  margin: 12px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.chart-container h3 {
+  font-size: 15px;
+  color: #323233;
+  margin-bottom: 12px;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.record-item .record-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.record-item .record-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.record-item .record-info .record-category {
+  font-size: 15px;
+  color: #323233;
+  font-weight: 500;
+}
+
+.record-item .record-info .record-note {
+  font-size: 12px;
+  color: #969799;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.record-item .record-right {
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.record-item .record-right .record-amount {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.record-item .record-right .record-date {
+  font-size: 11px;
+  color: #969799;
+  margin-top: 2px;
+}
+
+.category-icon-expense {
+  background: #fff1f0;
+  color: #ee0a24;
+}
+
+.category-icon-income {
+  background: #f0fff4;
+  color: #07c160;
+}
+
+.loading-more {
+  text-align: center;
+  padding: 16px;
+  color: #969799;
+  font-size: 13px;
+}
