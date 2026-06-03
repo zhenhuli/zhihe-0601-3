@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>股票演示工具</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>📈 股票演示工具</h1>
+            <div class="header-controls">
+                <span id="priceDisplay" class="price-display">--</span>
+                <span id="timeDisplay" class="time-display">--</span>
+                <button id="exportBtn" class="btn btn-primary">导出截图</button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="chart-container">
+                <canvas id="mainCanvas"></canvas>
+                <div class="chart-info" id="chartInfo"></div>
+            </div>
+
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h3>📊 添加技术指标</h3>
+                    <div class="indicator-form">
+                        <select id="indicatorType" class="form-input">
+                            <option value="sma">简单移动平均线 (SMA)</option>
+                            <option value="ema">指数移动平均线 (EMA)</option>
+                            <option value="rsi">相对强弱指数 (RSI)</option>
+                        </select>
+                        <div class="form-row">
+                            <label>周期 N:</label>
+                            <input type="number" id="indicatorPeriod" value="14" min="1" max="200" class="form-input">
+                        </div>
+                        <div class="form-row">
+                            <label>颜色:</label>
+                            <input type="color" id="indicatorColor" value="#ff6b6b" class="form-color">
+                        </div>
+                        <div class="form-row">
+                            <label>线宽:</label>
+                            <input type="range" id="indicatorWidth" min="1" max="5" value="2" class="form-range">
+                            <span id="widthValue">2</span>
+                        </div>
+                        <button id="addIndicatorBtn" class="btn btn-success">添加指标</button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>📋 已添加指标</h3>
+                    <div id="indicatorList" class="indicator-list"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>📏 绘图工具</h3>
+                    <button id="drawTrendlineBtn" class="btn btn-info">绘制趋势线</button>
+                    <button id="cancelDrawBtn" class="btn btn-warning" style="display:none;">取消绘制</button>
+                </div>
+
+                <div class="panel-section">
+                    <h3>📍 绘图对象</h3>
+                    <div id="drawingList" class="drawing-list"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>ℹ️ 操作说明</h3>
+                    <ul class="help-list">
+                        <li>🖱️ 左键拖动：平移视图</li>
+                        <li>🔄 滚轮：缩放时间轴</li>
+                        <li>📍 点击趋势线按钮后在图上点两点画线</li>
+                        <li>✋ 拖拽趋势线端点可调整</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/js/app.js"></script>
+</body>
+</html>

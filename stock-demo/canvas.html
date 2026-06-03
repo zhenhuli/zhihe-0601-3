@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>多点触控画板</title>
+    <link rel="stylesheet" href="src/css/canvas.css">
+</head>
+<body>
+    <div class="canvas-app-container">
+        <header class="canvas-app-header">
+            <h1>🎨 多点触控画板</h1>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span>手势状态: <span id="gestureStatus" class="gesture-status idle">空闲</span></span>
+            </div>
+        </header>
+
+        <div class="canvas-main-content">
+            <div class="canvas-area">
+                <div class="canvas-wrapper" style="width: 800px; height: 600px;">
+                    <canvas id="mainCanvas" width="800" height="600"></canvas>
+                    <div id="touchOverlay"></div>
+                </div>
+
+                <div style="margin-top: 15px; display: flex; gap: 20px; align-items: center;">
+                    <div class="transform-info" style="width: 250px;">
+                        <div class="transform-info-item">
+                            <div class="transform-info-label">缩放</div>
+                            <div class="transform-info-value" id="scaleInfo">100%</div>
+                        </div>
+                        <div class="transform-info-item">
+                            <div class="transform-info-label">旋转</div>
+                            <div class="transform-info-value" id="rotationInfo">0°</div>
+                        </div>
+                    </div>
+
+                    <div style="flex: 1;">
+                        <div class="help-list">
+                            <li>🖱️ 单指拖动：绘制自由曲线</li>
+                            <li>⇧ Shift + 拖动：双指变换（旋转/缩放/位移）</li>
+                            <li>📱 支持真实多点触控（触摸屏）</li>
+                            <li>⏱️ 自动记录最近5分钟操作</li>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-control-panel">
+                <div class="panel-section">
+                    <h3>⚙️ 画布控制</h3>
+                    <button id="clearBtn" class="canvas-btn btn-danger">清空画布</button>
+                    <button id="resetTransformBtn" class="canvas-btn btn-warning">重置形状</button>
+                    <div class="toggle-row" style="margin-top: 10px;">
+                        <label for="snapGridToggle">对齐到网格 (15°)</label>
+                        <label class="switch">
+                            <input type="checkbox" id="snapGridToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="form-row" style="margin-top: 10px;">
+                        <label>背景色</label>
+                        <input type="color" id="bgColorPicker" value="#f5f5f5" class="form-color">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>✏️ 涂鸦设置</h3>
+                    <div class="form-row">
+                        <label>画笔大小</label>
+                        <input type="range" id="brushSize" min="1" max="50" value="3" class="form-range">
+                        <span id="brushSizeValue" class="value-display">3px</span>
+                    </div>
+                    <div class="form-row">
+                        <label>画笔颜色</label>
+                        <input type="color" id="brushColor" value="#333333" class="form-color">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>⭐ 形状设置</h3>
+                    <div class="form-row">
+                        <label>形状</label>
+                        <select id="shapeSelect" class="form-select">
+                            <option value="star">五角星</option>
+                            <option value="triangle">三角形</option>
+                            <option value="square">正方形</option>
+                            <option value="pentagon">五边形</option>
+                            <option value="hexagon">六边形</option>
+                        </select>
+                    </div>
+                    <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">
+                        提示: 按住Shift键并拖动鼠标可模拟双指手势
+                    </p>
+                </div>
+
+                <div class="panel-section">
+                    <h3>⏱️ 时间轴</h3>
+                    <div>
+                        <div style="font-size: 0.85rem; color: #aaa; margin-bottom: 8px;">
+                            已记录: <span id="recordedTime">00:00</span> / <span id="totalTime">05:00</span>
+                        </div>
+                    </div>
+                    <div class="branch-list" id="branchList">
+                        <div class="branch-item">
+                            <span>main</span>
+                            <span class="branch-info">00:00 / 0事件</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>💾 导出 / 导入</h3>
+                    <button id="exportBtn" class="canvas-btn btn-primary">导出 JSON</button>
+                    <button id="importBtn" class="canvas-btn btn-success">导入 JSON</button>
+                    <input type="file" id="importFile" accept=".json" class="hidden">
+                    <button id="exportImageBtn" class="canvas-btn btn-info">导出图片</button>
+
+                    <div class="export-options">
+                        <label>格式:</label>
+                        <select id="imageFormat">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                        </select>
+                        <label>质量:</label>
+                        <input type="number" id="imageQuality" min="0.1" max="1" step="0.1" value="0.92">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>ℹ️ 操作说明</h3>
+                    <ul class="help-list">
+                        <li>🖱️ <strong>单指拖动</strong>：在涂鸦层绘制自由曲线</li>
+                        <li>⇧ <strong>Shift + 拖动</strong>：模拟双指，对形状层进行旋转/缩放</li>
+                        <li>📱 <strong>触摸屏双指</strong>：真实多点触控手势</li>
+                        <li>⏯️ <strong>时间轴回放</strong>：拖动滑块或点击播放</li>
+                        <li>🔄 <strong>分支记录</strong>：回放中继续绘制自动创建分支</li>
+                        <li>📐 <strong>对齐网格</strong>：旋转时按15度吸附</li>
+                        <li>🎯 <strong>手势冲突</strong>：系统自动区分单指/双指操作</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-controls">
+                <div class="timeline-buttons">
+                    <button id="playBtn" class="canvas-btn btn-success btn-small">▶ 播放</button>
+                    <button id="stopBtn" class="canvas-btn btn-warning btn-small">⏹ 停止</button>
+                    <button id="recordBtn" class="canvas-btn btn-danger btn-small">⏸ 暂停记录</button>
+                </div>
+                <div class="timeline-slider-container">
+                    <input type="range" id="timelineSlider" min="0" max="1" step="0.001" value="0">
+                    <span class="time-display" id="timeDisplay">00:00 / 00:00</span>
+                    <select id="playbackSpeed" class="speed-select">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5">0.5x</option>
+                        <option value="1" selected>1x</option>
+                        <option value="2">2x</option>
+                        <option value="4">4x</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/js/canvas/main.js"></script>
+</body>
+</html>

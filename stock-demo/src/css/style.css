@@ -1,0 +1,314 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-header {
+    background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.app-header h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #4ecdc4, #45b7d1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.price-display {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #4ecdc4;
+    font-family: 'Courier New', monospace;
+}
+
+.time-display {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.chart-container {
+    flex: 1;
+    position: relative;
+    background: #0f0f23;
+    padding: 10px;
+}
+
+#mainCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 8px;
+    background: #0a0a1a;
+    cursor: grab;
+}
+
+#mainCanvas:active {
+    cursor: grabbing;
+}
+
+#mainCanvas.drawing-mode {
+    cursor: crosshair;
+}
+
+.chart-info {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    pointer-events: none;
+    z-index: 10;
+    border: 1px solid #333;
+}
+
+.control-panel {
+    width: 320px;
+    background: #16213e;
+    padding: 15px;
+    overflow-y: auto;
+    border-left: 1px solid #333;
+}
+
+.panel-section {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2a2a4a;
+}
+
+.panel-section:last-child {
+    border-bottom: none;
+}
+
+.panel-section h3 {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    color: #4ecdc4;
+    font-weight: 600;
+}
+
+.indicator-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-row label {
+    font-size: 0.85rem;
+    color: #aaa;
+    min-width: 60px;
+}
+
+.form-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: #1a1a2e;
+    color: #eee;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus {
+    border-color: #4ecdc4;
+}
+
+.form-color {
+    width: 60px;
+    height: 36px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+}
+
+.form-range {
+    flex: 1;
+    cursor: pointer;
+}
+
+#widthValue {
+    min-width: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    color: white;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+}
+
+.btn-small {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+.indicator-list,
+.drawing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.indicator-item,
+.drawing-item {
+    background: #1a1a2e;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #333;
+}
+
+.indicator-header,
+.drawing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.indicator-name,
+.drawing-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.indicator-actions,
+.drawing-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.indicator-info,
+.drawing-info {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.help-list {
+    list-style: none;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.help-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #222;
+}
+
+.help-list li:last-child {
+    border-bottom: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.trendline-info-popup {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    pointer-events: none;
+    z-index: 20;
+    border: 1px solid #4ecdc4;
+    white-space: nowrap;
+}
