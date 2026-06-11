@@ -13,21 +13,34 @@ const password = ref('')
 const loading = ref(false)
 const showUserPicker = ref(false)
 
-const userActions = [
-  { name: '张三（技术部）', id: '1' },
-  { name: '李四（产品部）', id: '2' },
-  { name: '王五（设计部）', id: '3' },
-  { name: '赵六（市场部）', id: '4' },
-  { name: '孙七（技术部）', id: '5' },
-  { name: '周八（产品部）', id: '6' },
-  { name: '吴九（设计部）', id: '7' },
-  { name: '郑十（市场部）', id: '8' },
-  { name: '管理员（管理层）', id: '100' }
+const userOptions = [
+  { text: '张三（技术部）', value: '1' },
+  { text: '李四（产品部）', value: '2' },
+  { text: '王五（设计部）', value: '3' },
+  { text: '赵六（市场部）', value: '4' },
+  { text: '孙七（技术部）', value: '5' },
+  { text: '周八（产品部）', value: '6' },
+  { text: '吴九（设计部）', value: '7' },
+  { text: '郑十（市场部）', value: '8' },
+  { text: '管理员（管理层）', value: '100' }
 ]
 
-function onUserSelect(action) {
-  userId.value = action.id
-  userName.value = action.name
+const columns = [
+  {
+    values: userOptions,
+    textKey: 'text'
+  }
+]
+
+function onUserPickerConfirm({ selectedValues }) {
+  const option = selectedValues[0]
+  userId.value = option.value
+  userName.value = option.text
+  showUserPicker.value = false
+}
+
+function openUserPicker() {
+  showUserPicker.value = true
 }
 
 function onLogin() {
@@ -67,13 +80,12 @@ function onLogin() {
 
     <div class="login-card">
       <van-cell-group inset>
-        <van-field
-          :model-value="userName"
-          readonly
+        <van-cell
+          :title="userName || '请选择用户账号'"
           is-link
           label="用户"
-          placeholder="选择用户账号"
-          @click="showUserPicker = true"
+          :title-class="userName ? 'cell-title' : 'cell-placeholder'"
+          @click="openUserPicker"
         />
         <van-field
           v-model="password"
@@ -82,14 +94,6 @@ function onLogin() {
           placeholder="请输入密码"
         />
       </van-cell-group>
-
-      <van-action-sheet
-        v-model:show="showUserPicker"
-        title="选择用户"
-        :actions="userActions"
-        @select="onUserSelect"
-        cancel-text="取消"
-      />
 
       <div class="login-tip">
         员工密码：123456 / 管理员密码：admin123
@@ -107,6 +111,15 @@ function onLogin() {
         登 录
       </van-button>
     </div>
+
+    <van-popup v-model:show="showUserPicker" position="bottom" round>
+      <van-picker
+        :columns="columns"
+        title="选择用户"
+        @confirm="onUserPickerConfirm"
+        @cancel="showUserPicker = false"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -154,6 +167,21 @@ function onLogin() {
 
 .login-card :deep(.van-cell-group--inset) {
   margin: 0;
+}
+
+.login-card :deep(.van-cell__label) {
+  color: #323233;
+  font-size: 14px;
+}
+
+.cell-title {
+  color: #323233 !important;
+  font-size: 14px !important;
+}
+
+.cell-placeholder {
+  color: #c8c9cc !important;
+  font-size: 14px !important;
 }
 
 .login-tip {
