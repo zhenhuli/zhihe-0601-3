@@ -1,0 +1,24 @@
+{
+  "name": "attendance-app",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 8083",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "echarts": "5.5.1",
+    "file-saver": "2.0.5",
+    "pinia": "2.1.7",
+    "vant": "4.9.1",
+    "vue": "3.4.27",
+    "vue-router": "4.3.2",
+    "xlsx": "0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "5.0.4",
+    "vite": "5.2.12"
+  }
+}
