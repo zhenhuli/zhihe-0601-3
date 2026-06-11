@@ -19,17 +19,26 @@ html, body, #app {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 
 .page-content {
-  flex: 1;
+  flex: 1 1 auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 10px;
+  padding-bottom: 72px;
+  min-height: 0;
 }
 
 .van-tabbar {
   flex-shrink: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 100;
+}
+
+.van-nav-bar {
+  flex-shrink: 0;
+  z-index: 100;
 }
 
 .status-pending {
