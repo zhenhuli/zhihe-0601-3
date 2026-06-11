@@ -25,15 +25,10 @@ const userOptions = [
   { text: '管理员（管理层）', value: '100' }
 ]
 
-const columns = [
-  {
-    values: userOptions,
-    textKey: 'text'
-  }
-]
+const columns = userOptions
 
-function onUserPickerConfirm({ selectedValues }) {
-  const option = selectedValues[0]
+function onUserPickerConfirm({ selectedValues, selectedOptions }) {
+  const option = selectedOptions[0]
   userId.value = option.value
   userName.value = option.text
   showUserPicker.value = false
